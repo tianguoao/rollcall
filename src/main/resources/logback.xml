@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
+<configuration scan="true" scanPeriod="10 seconds">
+    <contextName>rollcall-log</contextName>
+    <property name="USER_HOME" value="/data0/logs/rollcall"/>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss.SSS} %-5level[%thread]%logger{32}:%line-[%X{requestId}] > %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="infoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${USER_HOME}/rollcall.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${USER_HOME}/rollcall.%d{yyyy-MM-dd}.log</FileNamePattern> 
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <Pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{32}:%line-[%X{requestId}] > %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <appender name="errorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${USER_HOME}/errorFile.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${USER_HOME}/errorFile.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <Pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{32}:%line-[%X{requestId}] > %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="infoFile"/>
+        <appender-ref ref="errorFile"/>
+    </root>
+
+    <logger name="com.tga.rollcall.dao" level="DEBUG" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+    
+</configuration>
