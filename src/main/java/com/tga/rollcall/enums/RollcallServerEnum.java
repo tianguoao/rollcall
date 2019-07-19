@@ -11,6 +11,7 @@ public enum RollcallServerEnum {
     SUCCESS(0, "success", "SUCCESS", "请求接口处理正常"), 
     ERROR(1, "server error", "ERROR", "服务器内部处理异常"),
     PARAM_NOT_NULL_ERROR(2, "参数不能为空", "FAIL", "参数不能为空"),
+    USER_IS_IS_EXISTED(3, "啊哦! 要注册的用户名已存在!请更换用户名重试", "FAIL", "注册校验"),
     ;
     private Integer code;
     private String message;

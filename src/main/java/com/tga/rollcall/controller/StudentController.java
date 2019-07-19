@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.tga.rollcall.annotations.NotLogin;
+import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
 import com.tga.rollcall.entity.Student;
 import com.tga.rollcall.service.StudentService;
@@ -24,9 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 public class StudentController {
     @Autowired
     StudentService studentService;
-
+    
+    @PrintParams
+    @NotLogin
     @RequestMapping(value = RollCallApi.QUERY_STUDENT_LIST, method = RequestMethod.POST)
-    public Object serverState(@RequestBody Student record, HttpServletRequest request) {
+    public Object queryStudentList(@RequestBody Student record, HttpServletRequest request) {
         log.info("**************************** test");
         return studentService.queryStudent(record);
     }

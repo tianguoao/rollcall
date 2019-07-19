@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tga.rollcall.common.RollCallApi;
 import com.tga.rollcall.dto.User;
 import com.tga.rollcall.service.StudentService;
+import com.tga.rollcall.service.UserService;
 import com.tga.rollcall.util.ResultBase;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,7 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BaseController {
     @Autowired
-    StudentService studentService;
+    UserService userService;
+
     @RequestMapping(value = "/serverState", method = RequestMethod.POST)
     public Object serverState(@RequestBody String str, HttpServletRequest request) {
         log.info("**************************** test");
@@ -33,7 +35,12 @@ public class BaseController {
     
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultBase<?> login(@RequestBody User param, HttpServletRequest request) {
+        return userService.login(param);
+    }
+    
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResultBase<?> register(@RequestBody User param, HttpServletRequest request) {
         
-        return ResultBase.Builder.success();
+        return userService.register(param);
     }
 }

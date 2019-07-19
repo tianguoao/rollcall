@@ -16,6 +16,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User {
     private Long userId;
+    private String user;
     private String userName;
     private String pwd;
+    private String email;
+    private String mobile;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserInfo {
+        private Long userId;
+        private String user;
+        private String userName;
+        private String email;
+        private String mobile;
+        private String token;
+    }
 }
