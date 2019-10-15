@@ -86,6 +86,7 @@ public class UserService {
         if (UserTypeEnum.STUDENT.getCode().equals(user.getUserType())) {
             // 设置当前学生分组的老师id
             record.setGroupId(Long.valueOf(user.getGroupId() + ""));
+            record.setFaceData(user.getFaceData());
         }
         // 保存用户账号信息
         int count = userMapper.insertSelective(record);
