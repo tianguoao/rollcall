@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
 import com.tga.rollcall.dto.User;
-import com.tga.rollcall.service.StudentService;
+import com.tga.rollcall.service.AdminService;
 import com.tga.rollcall.service.UserService;
 import com.tga.rollcall.util.ResultBase;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(RollCallApi.SERVER_NAME)
 @Slf4j
-public class BaseController {
+public class BaseController  extends Base {
     @Autowired
     UserService userService;
-
+    @Autowired
+    AdminService adminService;
+    
     @RequestMapping(value = "/serverState", method = RequestMethod.POST)
     public Object serverState(@RequestBody String str, HttpServletRequest request) {
         log.info("**************************** test");
@@ -52,21 +55,29 @@ public class BaseController {
      */
     @RequestMapping(value = "/getGroup", method = RequestMethod.GET)
     public ResultBase<?> getGroup(HttpServletRequest request) {
-        
-        return null;
+        return adminService.getGroupList();
     }
 
     /**
-     * 获取当前登陆的用户信息
+     * 增加分组
      * 
      * @param request
      * @return
      */
-    public static User getUserInfo(HttpServletRequest request) {
-        User user = new User();
-        user.setUserId(Long.valueOf("" + request.getAttribute("userId")));
-        user.setUserName(request.getAttribute("userName") + "");
-        user.setUserType(Integer.valueOf(request.getAttribute("userType") + ""));
-        return user;
+    @RequestMapping(value = "/addGroup", method = RequestMethod.POST)
+    public ResultBase<?> addGroup(HttpServletRequest request) {
+        return adminService.addGroup(null, null);
+    }
+    
+    /**
+     * 开启用户账号
+     * @param request
+     * @return
+     */
+    @PrintParams
+    @RequestMapping(value = "/openUserAccount", method = RequestMethod.POST)
+    public Object openStudentAccount(HttpServletRequest request) {
+        User user = getUserInfo(request);
+        return adminService.openUserAccount(user.getUserId());
     }
 }

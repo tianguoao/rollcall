@@ -1,6 +1,7 @@
 package com.tga.rollcall.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tga.rollcall.annotations.NotLogin;
 import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
+import com.tga.rollcall.dto.User;
 import com.tga.rollcall.entity.Student;
+import com.tga.rollcall.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,7 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(RollCallApi.SERVER_NAME)
 @Slf4j
-public class TeacherController {
+public class TeacherController extends Base {
+    @Autowired
+    TeacherService teacherService;
+    
     /**
      * 查询本班学生注册列表
      * @param record
@@ -31,7 +37,14 @@ public class TeacherController {
     @PrintParams
     @RequestMapping(value = "/getStudentRegisterList", method = RequestMethod.GET)
     public Object getStudentRegisterList(HttpServletRequest request) {
-        log.info("**************************** test");
-        return null;
+        User user = getUserInfo(request);
+        return teacherService.getStudentRegisterList(Long.valueOf("" + user.getGroupId()));
+    }
+    
+    @PrintParams
+    @RequestMapping(value = "/getStudentRegisterList", method = RequestMethod.POST)
+    public Object openStudentAccount(HttpServletRequest request) {
+        User user = getUserInfo(request);
+        return teacherService.openStudentAccount(user.getUserId());
     }
 }
