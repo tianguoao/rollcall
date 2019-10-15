@@ -4,13 +4,19 @@
   <resultMap id="BaseResultMap" type="com.tga.rollcall.entity.User">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user" jdbcType="VARCHAR" property="user" />
+    <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="age" jdbcType="INTEGER" property="age" />
     <result column="pwd" jdbcType="VARCHAR" property="pwd" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="group_id" jdbcType="BIGINT" property="groupId" />
-    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="user_type" jdbcType="BIT" property="userType" />
+    <result column="group_id" jdbcType="BIGINT" property="groupId" />
     <result column="is_deletd" jdbcType="BIT" property="isDeletd" />
+    <result column="user_status" jdbcType="BIT" property="userStatus" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tga.rollcall.entity.User">
+    <result column="face_data" jdbcType="LONGVARCHAR" property="faceData" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,8 +77,36 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, `user`, user_name, pwd, mobile, group_id, group_name, email, is_deletd
+    id, `user`, user_icon, user_name, age, pwd, mobile, email, user_type, group_id, is_deletd, 
+    user_status
   </sql>
+  <sql id="Blob_Column_List">
+    face_data
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.tga.rollcall.entity.UserExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
   <select id="selectByExample" parameterType="com.tga.rollcall.entity.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -95,9 +129,11 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from user
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -112,14 +148,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.tga.rollcall.entity.User">
-    insert into user (id, `user`, user_name, 
-      pwd, mobile, group_id, 
-      group_name, email, is_deletd
-      )
-    values (#{id,jdbcType=BIGINT}, #{user,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
-      #{pwd,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{groupId,jdbcType=BIGINT}, 
-      #{groupName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{isDeletd,jdbcType=BIT}
-      )
+    insert into user (id, `user`, user_icon, 
+      user_name, age, pwd, 
+      mobile, email, user_type, 
+      group_id, is_deletd, user_status, 
+      face_data)
+    values (#{id,jdbcType=BIGINT}, #{user,jdbcType=VARCHAR}, #{userIcon,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{pwd,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{userType,jdbcType=BIT}, 
+      #{groupId,jdbcType=BIGINT}, #{isDeletd,jdbcType=BIT}, #{userStatus,jdbcType=BIT}, 
+      #{faceData,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.tga.rollcall.entity.User">
     insert into user
@@ -130,8 +168,14 @@
       <if test="user != null">
         `user`,
       </if>
+      <if test="userIcon != null">
+        user_icon,
+      </if>
       <if test="userName != null">
         user_name,
+      </if>
+      <if test="age != null">
+        age,
       </if>
       <if test="pwd != null">
         pwd,
@@ -139,17 +183,23 @@
       <if test="mobile != null">
         mobile,
       </if>
-      <if test="groupId != null">
-        group_id,
-      </if>
-      <if test="groupName != null">
-        group_name,
-      </if>
       <if test="email != null">
         email,
       </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
       <if test="isDeletd != null">
         is_deletd,
+      </if>
+      <if test="userStatus != null">
+        user_status,
+      </if>
+      <if test="faceData != null">
+        face_data,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -159,8 +209,14 @@
       <if test="user != null">
         #{user,jdbcType=VARCHAR},
       </if>
+      <if test="userIcon != null">
+        #{userIcon,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
       </if>
       <if test="pwd != null">
         #{pwd,jdbcType=VARCHAR},
@@ -168,17 +224,23 @@
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="groupId != null">
-        #{groupId,jdbcType=BIGINT},
-      </if>
-      <if test="groupName != null">
-        #{groupName,jdbcType=VARCHAR},
-      </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
+      <if test="userType != null">
+        #{userType,jdbcType=BIT},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=BIGINT},
+      </if>
       <if test="isDeletd != null">
         #{isDeletd,jdbcType=BIT},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=BIT},
+      </if>
+      <if test="faceData != null">
+        #{faceData,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -197,8 +259,14 @@
       <if test="record.user != null">
         `user` = #{record.user,jdbcType=VARCHAR},
       </if>
+      <if test="record.userIcon != null">
+        user_icon = #{record.userIcon,jdbcType=VARCHAR},
+      </if>
       <if test="record.userName != null">
         user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
       </if>
       <if test="record.pwd != null">
         pwd = #{record.pwd,jdbcType=VARCHAR},
@@ -206,19 +274,44 @@
       <if test="record.mobile != null">
         mobile = #{record.mobile,jdbcType=VARCHAR},
       </if>
-      <if test="record.groupId != null">
-        group_id = #{record.groupId,jdbcType=BIGINT},
-      </if>
-      <if test="record.groupName != null">
-        group_name = #{record.groupName,jdbcType=VARCHAR},
-      </if>
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=BIT},
+      </if>
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=BIGINT},
       </if>
       <if test="record.isDeletd != null">
         is_deletd = #{record.isDeletd,jdbcType=BIT},
       </if>
+      <if test="record.userStatus != null">
+        user_status = #{record.userStatus,jdbcType=BIT},
+      </if>
+      <if test="record.faceData != null">
+        face_data = #{record.faceData,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update user
+    set id = #{record.id,jdbcType=BIGINT},
+      `user` = #{record.user,jdbcType=VARCHAR},
+      user_icon = #{record.userIcon,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      pwd = #{record.pwd,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=BIT},
+      group_id = #{record.groupId,jdbcType=BIGINT},
+      is_deletd = #{record.isDeletd,jdbcType=BIT},
+      user_status = #{record.userStatus,jdbcType=BIT},
+      face_data = #{record.faceData,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,13 +320,16 @@
     update user
     set id = #{record.id,jdbcType=BIGINT},
       `user` = #{record.user,jdbcType=VARCHAR},
+      user_icon = #{record.userIcon,jdbcType=VARCHAR},
       user_name = #{record.userName,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
       pwd = #{record.pwd,jdbcType=VARCHAR},
       mobile = #{record.mobile,jdbcType=VARCHAR},
-      group_id = #{record.groupId,jdbcType=BIGINT},
-      group_name = #{record.groupName,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
-      is_deletd = #{record.isDeletd,jdbcType=BIT}
+      user_type = #{record.userType,jdbcType=BIT},
+      group_id = #{record.groupId,jdbcType=BIGINT},
+      is_deletd = #{record.isDeletd,jdbcType=BIT},
+      user_status = #{record.userStatus,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -244,8 +340,14 @@
       <if test="user != null">
         `user` = #{user,jdbcType=VARCHAR},
       </if>
+      <if test="userIcon != null">
+        user_icon = #{userIcon,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null">
         user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
       </if>
       <if test="pwd != null">
         pwd = #{pwd,jdbcType=VARCHAR},
@@ -253,31 +355,56 @@
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="groupId != null">
-        group_id = #{groupId,jdbcType=BIGINT},
-      </if>
-      <if test="groupName != null">
-        group_name = #{groupName,jdbcType=VARCHAR},
-      </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=BIT},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=BIGINT},
       </if>
       <if test="isDeletd != null">
         is_deletd = #{isDeletd,jdbcType=BIT},
       </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=BIT},
+      </if>
+      <if test="faceData != null">
+        face_data = #{faceData,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tga.rollcall.entity.User">
+    update user
+    set `user` = #{user,jdbcType=VARCHAR},
+      user_icon = #{userIcon,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=BIT},
+      group_id = #{groupId,jdbcType=BIGINT},
+      is_deletd = #{isDeletd,jdbcType=BIT},
+      user_status = #{userStatus,jdbcType=BIT},
+      face_data = #{faceData,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tga.rollcall.entity.User">
     update user
     set `user` = #{user,jdbcType=VARCHAR},
+      user_icon = #{userIcon,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
       pwd = #{pwd,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
-      group_id = #{groupId,jdbcType=BIGINT},
-      group_name = #{groupName,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      is_deletd = #{isDeletd,jdbcType=BIT}
+      user_type = #{userType,jdbcType=BIT},
+      group_id = #{groupId,jdbcType=BIGINT},
+      is_deletd = #{isDeletd,jdbcType=BIT},
+      user_status = #{userStatus,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -21,6 +21,7 @@ import com.tga.rollcall.dto.User;
 import com.tga.rollcall.dto.User.UserInfo;
 import com.tga.rollcall.entity.UserExample;
 import com.tga.rollcall.enums.RollcallServerEnum;
+import com.tga.rollcall.enums.UserTypeEnum;
 import com.tga.rollcall.util.AesUtils;
 import com.tga.rollcall.util.ResultBase;
 import lombok.extern.slf4j.Slf4j;
@@ -84,6 +85,11 @@ public class UserService {
 
         } else {
 
+        }
+        
+        if (UserTypeEnum.STUDENT.getCode().equals(user.getUserType())) {
+            // 设置当前学生分组的老师id
+            record.setGroupId(Long.valueOf(user.getGroupId() + ""));
         }
         // 保存用户账号信息
         int count = userMapper.insertSelective(record);

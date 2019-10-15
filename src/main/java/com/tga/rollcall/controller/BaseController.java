@@ -43,4 +43,30 @@ public class BaseController {
         
         return userService.register(param);
     }
+    
+    /**
+     * 获取分组列表</br>
+     * <b>学生注册选择对应分组</b>
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getGroup", method = RequestMethod.GET)
+    public ResultBase<?> getGroup(HttpServletRequest request) {
+        
+        return null;
+    }
+
+    /**
+     * 获取当前登陆的用户信息
+     * 
+     * @param request
+     * @return
+     */
+    public static User getUserInfo(HttpServletRequest request) {
+        User user = new User();
+        user.setUserId(Long.valueOf("" + request.getAttribute("userId")));
+        user.setUserName(request.getAttribute("userName") + "");
+        user.setUserType(Integer.valueOf(request.getAttribute("userType") + ""));
+        return user;
+    }
 }
