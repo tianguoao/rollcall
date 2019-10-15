@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
- * 
+ * 公共接口Api
  * @author  Mario 
  * @version 2019年6月13日 下午5:00:05
  * Class: BaseController.java
