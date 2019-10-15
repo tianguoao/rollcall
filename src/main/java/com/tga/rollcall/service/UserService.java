@@ -1,13 +1,10 @@
 package com.tga.rollcall.service;
 
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.List;
 import java.util.UUID;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Hex;
@@ -19,7 +16,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.tga.rollcall.dao.UserMapper;
 import com.tga.rollcall.dto.User;
 import com.tga.rollcall.dto.User.UserInfo;
-import com.tga.rollcall.entity.UserExample;
 import com.tga.rollcall.enums.RollcallServerEnum;
 import com.tga.rollcall.enums.UserTypeEnum;
 import com.tga.rollcall.util.AesUtils;

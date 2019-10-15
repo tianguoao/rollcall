@@ -61,8 +61,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor{
             jwtVerifier.verify(token);
             httpServletRequest.setAttribute("userId", user.getId());
             httpServletRequest.setAttribute("userName", user.getUserName());
-            //TODO  更换新生成的usertype
-            httpServletRequest.setAttribute("userType", user.getUser());
+            httpServletRequest.setAttribute("userType", user.getUserType());
             return true;
         } catch (JWTDecodeException j) {
             throw new RuntimeException("401");

@@ -26,6 +26,10 @@ public class User {
      */
     private  Integer userType;
     private  Integer groupId;
+    /**
+     * 人脸数据(ps:注册采集人脸信息  后续签到拿第一次人脸数据做对比)
+     */
+    private String faceData;
 
     @Data
     @AllArgsConstructor
