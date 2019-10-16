@@ -21,8 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 public class TeacherService {
     @Autowired
     UserMapper userMapper;
+
     /**
      * 查询本班未启用的学生账号
+     * 
      * @param groupId
      * @return
      */
@@ -30,8 +32,10 @@ public class TeacherService {
         List<User> lsit = userMapper.getStudentRegisterList(groupId);
         return ResultBase.Builder.success(lsit);
     }
+
     /**
      * 开启某个学生账号
+     * 
      * @param groupId
      * @return
      */

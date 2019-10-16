@@ -29,18 +29,33 @@ public class BaseController  extends Base {
     UserService userService;
     @Autowired
     AdminService adminService;
-    
+    /**
+     * 服务状态检查
+     * @param str
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/serverState", method = RequestMethod.POST)
     public Object serverState(@RequestBody String str, HttpServletRequest request) {
         log.info("**************************** test");
         return "200";
     }
-    
+    /**
+     * 登陆获取token
+     * @param param
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultBase<?> login(@RequestBody User param, HttpServletRequest request) {
         return userService.login(param);
     }
-    
+    /**
+     * 注册账号接口
+     * @param param
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResultBase<?> register(@RequestBody User param, HttpServletRequest request) {
         

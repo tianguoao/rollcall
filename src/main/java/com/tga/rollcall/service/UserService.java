@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
- * 
+ * 用户相关服务接口
  * @author  Mario 
  * @version 2019年7月10日 下午4:14:27
  * Class: UserService.java

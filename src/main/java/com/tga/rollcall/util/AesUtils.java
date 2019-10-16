@@ -2,7 +2,6 @@ package com.tga.rollcall.util;
 
 import java.security.Key;
 import java.security.SecureRandom;
-import java.util.UUID;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -11,7 +10,7 @@ import org.apache.commons.codec.binary.Base64;
 
 /**
  * 
- * 
+ * 加密工具类
  * @author  Mario 
  * @version 2019年7月19日 下午3:53:11
  * Class: AesUtils.java
