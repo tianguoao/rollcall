@@ -42,6 +42,21 @@ public class SignInTask implements Serializable {
      */
     private String teacherName;
 
+    /**
+     * 签到地址
+     */
+    private String address;
+
+    /**
+     * 经度
+     */
+    private Double latitude;
+
+    /**
+     * 纬度
+     */
+    private Double longitude;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -108,6 +123,30 @@ public class SignInTask implements Serializable {
         this.teacherName = teacherName;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -127,7 +166,10 @@ public class SignInTask implements Serializable {
             && (this.getCreateTaskTeacherId() == null ? other.getCreateTaskTeacherId() == null : this.getCreateTaskTeacherId().equals(other.getCreateTaskTeacherId()))
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
             && (this.getGroupId() == null ? other.getGroupId() == null : this.getGroupId().equals(other.getGroupId()))
-            && (this.getTeacherName() == null ? other.getTeacherName() == null : this.getTeacherName().equals(other.getTeacherName()));
+            && (this.getTeacherName() == null ? other.getTeacherName() == null : this.getTeacherName().equals(other.getTeacherName()))
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
+            && (this.getLatitude() == null ? other.getLatitude() == null : this.getLatitude().equals(other.getLatitude()))
+            && (this.getLongitude() == null ? other.getLongitude() == null : this.getLongitude().equals(other.getLongitude()));
     }
 
     @Override
@@ -142,6 +184,9 @@ public class SignInTask implements Serializable {
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getGroupId() == null) ? 0 : getGroupId().hashCode());
         result = prime * result + ((getTeacherName() == null) ? 0 : getTeacherName().hashCode());
+        result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
+        result = prime * result + ((getLatitude() == null) ? 0 : getLatitude().hashCode());
+        result = prime * result + ((getLongitude() == null) ? 0 : getLongitude().hashCode());
         return result;
     }
 
@@ -159,6 +204,9 @@ public class SignInTask implements Serializable {
         sb.append(", createDate=").append(createDate);
         sb.append(", groupId=").append(groupId);
         sb.append(", teacherName=").append(teacherName);
+        sb.append(", address=").append(address);
+        sb.append(", latitude=").append(latitude);
+        sb.append(", longitude=").append(longitude);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

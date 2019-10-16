@@ -1,10 +1,14 @@
 package com.tga.rollcall.service;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.tga.rollcall.dao.SignInTaskMapper;
 import com.tga.rollcall.dao.UserMapper;
+import com.tga.rollcall.dto.SignInTaskParam;
 import com.tga.rollcall.dto.User.UserInfo;
+import com.tga.rollcall.entity.SignInTask;
 import com.tga.rollcall.entity.User;
 import com.tga.rollcall.util.ResultBase;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 public class TeacherService {
     @Autowired
     UserMapper userMapper;
-
+    @Autowired
+    SignInTaskMapper signInTaskMapper;
     /**
      * 查询本班未启用的学生账号
      * 
@@ -46,4 +51,27 @@ public class TeacherService {
             return ResultBase.Builder.error();
         }
     }
+    /**
+     * 发布签到任务
+     * @param param
+     * @return
+     */
+    public ResultBase<?> addSignInTask(SignInTaskParam param) {
+        SignInTask record = new SignInTask();
+        record.setAddress(param.getAddress());
+        record.setCreateDate(new Date());
+        record.setCreateTaskTeacherId(param.getTeacherId());
+        record.setStartDate(param.getStartDate());
+        record.setEndDate(param.getEndDate());
+        record.setGroupId(param.getGroupId());
+        record.setTaskName(param.getTaskName());
+        record.setLatitude(param.getLatitude());
+        record.setLongitude(param.getLongitude());
+        if (signInTaskMapper.insertSelective(record) > 0) {
+            return ResultBase.Builder.success();
+        } else {
+            return ResultBase.Builder.error();
+        }
+    }
+    
 }

@@ -10,6 +10,9 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="group_id" jdbcType="BIGINT" property="groupId" />
     <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, task_name, start_date, end_date, create_task_teacher_id, create_date, group_id, 
-    teacher_name
+    teacher_name, address, latitude, longitude
   </sql>
   <select id="selectByExample" parameterType="com.tga.rollcall.entity.SignInTaskExample" resultMap="BaseResultMap">
     select
@@ -114,10 +117,12 @@
   <insert id="insert" parameterType="com.tga.rollcall.entity.SignInTask">
     insert into sign_in_task (id, task_name, start_date, 
       end_date, create_task_teacher_id, create_date, 
-      group_id, teacher_name)
+      group_id, teacher_name, address, 
+      latitude, longitude)
     values (#{id,jdbcType=BIGINT}, #{taskName,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, 
       #{endDate,jdbcType=TIMESTAMP}, #{createTaskTeacherId,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{groupId,jdbcType=BIGINT}, #{teacherName,jdbcType=VARCHAR})
+      #{groupId,jdbcType=BIGINT}, #{teacherName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.tga.rollcall.entity.SignInTask">
     insert into sign_in_task
@@ -146,6 +151,15 @@
       <if test="teacherName != null">
         teacher_name,
       </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -171,6 +185,15 @@
       </if>
       <if test="teacherName != null">
         #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -207,6 +230,15 @@
       <if test="record.teacherName != null">
         teacher_name = #{record.teacherName,jdbcType=VARCHAR},
       </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DOUBLE},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -221,7 +253,10 @@
       create_task_teacher_id = #{record.createTaskTeacherId,jdbcType=BIGINT},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       group_id = #{record.groupId,jdbcType=BIGINT},
-      teacher_name = #{record.teacherName,jdbcType=VARCHAR}
+      teacher_name = #{record.teacherName,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=DOUBLE},
+      longitude = #{record.longitude,jdbcType=DOUBLE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -250,6 +285,15 @@
       <if test="teacherName != null">
         teacher_name = #{teacherName,jdbcType=VARCHAR},
       </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -261,7 +305,10 @@
       create_task_teacher_id = #{createTaskTeacherId,jdbcType=BIGINT},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       group_id = #{groupId,jdbcType=BIGINT},
-      teacher_name = #{teacherName,jdbcType=VARCHAR}
+      teacher_name = #{teacherName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

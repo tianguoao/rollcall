@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import com.tga.rollcall.annotations.NotLogin;
 import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
+import com.tga.rollcall.dto.SignInTaskParam;
 import com.tga.rollcall.dto.User;
-import com.tga.rollcall.entity.Student;
 import com.tga.rollcall.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +43,17 @@ public class TeacherController extends Base {
     @PrintParams
     @RequestMapping(value = "/getStudentRegisterList", method = RequestMethod.POST)
     public Object openStudentAccount(HttpServletRequest request) {
+        User user = getUserInfo(request);
+        return teacherService.openStudentAccount(user.getUserId());
+    }
+    /**
+     * 发布打卡任务
+     * @param request
+     * @return
+     */
+    @PrintParams
+    @RequestMapping(value = "/addSignInTask", method = RequestMethod.POST)
+    public Object addSignInTask(@RequestBody SignInTaskParam param ,HttpServletRequest request) {
         User user = getUserInfo(request);
         return teacherService.openStudentAccount(user.getUserId());
     }
