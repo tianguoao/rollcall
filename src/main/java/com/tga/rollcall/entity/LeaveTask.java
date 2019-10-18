@@ -20,9 +20,19 @@ public class LeaveTask implements Serializable {
     private String reasonsForLeave;
 
     /**
+     * 开始日期
+     */
+    private Date startDate;
+
+    /**
+     * 结束日期
+     */
+    private Date endDate;
+
+    /**
      * 是否同意0：no，1：yes
      */
-    private Boolean isAgree;
+    private Integer isAgree;
 
     private Date createDate;
 
@@ -62,11 +72,27 @@ public class LeaveTask implements Serializable {
         this.reasonsForLeave = reasonsForLeave;
     }
 
-    public Boolean getIsAgree() {
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Integer getIsAgree() {
         return isAgree;
     }
 
-    public void setIsAgree(Boolean isAgree) {
+    public void setIsAgree(Integer isAgree) {
         this.isAgree = isAgree;
     }
 
@@ -102,6 +128,8 @@ public class LeaveTask implements Serializable {
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getTeacherId() == null ? other.getTeacherId() == null : this.getTeacherId().equals(other.getTeacherId()))
             && (this.getReasonsForLeave() == null ? other.getReasonsForLeave() == null : this.getReasonsForLeave().equals(other.getReasonsForLeave()))
+            && (this.getStartDate() == null ? other.getStartDate() == null : this.getStartDate().equals(other.getStartDate()))
+            && (this.getEndDate() == null ? other.getEndDate() == null : this.getEndDate().equals(other.getEndDate()))
             && (this.getIsAgree() == null ? other.getIsAgree() == null : this.getIsAgree().equals(other.getIsAgree()))
             && (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate()))
             && (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate()));
@@ -115,6 +143,8 @@ public class LeaveTask implements Serializable {
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getTeacherId() == null) ? 0 : getTeacherId().hashCode());
         result = prime * result + ((getReasonsForLeave() == null) ? 0 : getReasonsForLeave().hashCode());
+        result = prime * result + ((getStartDate() == null) ? 0 : getStartDate().hashCode());
+        result = prime * result + ((getEndDate() == null) ? 0 : getEndDate().hashCode());
         result = prime * result + ((getIsAgree() == null) ? 0 : getIsAgree().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
@@ -131,6 +161,8 @@ public class LeaveTask implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", teacherId=").append(teacherId);
         sb.append(", reasonsForLeave=").append(reasonsForLeave);
+        sb.append(", startDate=").append(startDate);
+        sb.append(", endDate=").append(endDate);
         sb.append(", isAgree=").append(isAgree);
         sb.append(", createDate=").append(createDate);
         sb.append(", updateDate=").append(updateDate);

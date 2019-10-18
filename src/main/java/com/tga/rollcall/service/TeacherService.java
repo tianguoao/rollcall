@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.tga.rollcall.dao.LeaveTaskMapper;
 import com.tga.rollcall.dao.SignInTaskMapper;
 import com.tga.rollcall.dao.UserMapper;
+import com.tga.rollcall.dto.ReviewLeaveTaskParam;
 import com.tga.rollcall.dto.SignInTaskParam;
 import com.tga.rollcall.dto.User.UserInfo;
 import com.tga.rollcall.entity.SignInTask;
@@ -27,6 +29,9 @@ public class TeacherService {
     UserMapper userMapper;
     @Autowired
     SignInTaskMapper signInTaskMapper;
+    @Autowired
+    LeaveTaskMapper leaveTaskMapper;
+    
     /**
      * 查询本班未启用的学生账号
      * 
@@ -74,4 +79,17 @@ public class TeacherService {
         }
     }
     
+    /**
+     * 审批学生请假任务
+     * @param taskId
+     * @return
+     */
+    public ResultBase<?> reviewLeaveTask(ReviewLeaveTaskParam param) {
+        if (param.getAgree()) {
+            leaveTaskMapper.updateAgree(param.getTaskId());
+        } else {
+            leaveTaskMapper.updateNotAgree(param.getTaskId());
+        }
+        return ResultBase.Builder.success();
+    }
 }

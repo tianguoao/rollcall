@@ -4,11 +4,16 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.tga.rollcall.dao.GroupMapper;
+import com.tga.rollcall.dao.LeaveTaskMapper;
 import com.tga.rollcall.dao.SignInRecordMapper;
 import com.tga.rollcall.dao.SignInTaskMapper;
 import com.tga.rollcall.dao.StudentMapper;
 import com.tga.rollcall.dao.UserMapper;
+import com.tga.rollcall.dto.LeaveTaskParam;
 import com.tga.rollcall.dto.TaskSignInParam;
+import com.tga.rollcall.entity.LeaveTask;
+import com.tga.rollcall.entity.LeaveTaskExample;
 import com.tga.rollcall.entity.SignInRecord;
 import com.tga.rollcall.entity.SignInRecordExample;
 import com.tga.rollcall.entity.SignInTask;
@@ -38,6 +43,10 @@ public class StudentService {
     SignInTaskMapper signInTaskMapper;
     @Autowired
     SignInRecordMapper signInRecordMapper;
+    @Autowired
+    LeaveTaskMapper leaveTaskMapper;
+    @Autowired
+    GroupMapper groupMapper;
     
     public void test(Student record) {
         studentMapper.insertSelective(record);
@@ -109,4 +118,44 @@ public class StudentService {
         List<SignInRecord> lsit = signInRecordMapper.selectByExample(example);
         return ResultBase.Builder.success(lsit);
     }
+    
+    /**
+     * 新增请假任务
+     * @param param
+     * @return
+     */
+    public ResultBase<?> addLeaveTask(LeaveTaskParam param) {
+        Long teacherId=groupMapper.querTeacherIdByGroupId(param.getGroupId());
+        param.setTeacherId(teacherId);
+        LeaveTask record = new LeaveTask();
+        record.setTeacherId(param.getTeacherId());
+        record.setStartDate(param.getStartDate());
+        record.setEndDate(param.getEndDate());
+        record.setReasonsForLeave(param.getReason());
+        record.setUserId(param.getStudentId());
+        if (leaveTaskMapper.insert(record) > 0) {
+            return ResultBase.Builder.success();
+        }
+        return ResultBase.Builder.error(null);
+    }
+    
+    /**
+     * 查询学生请假记录及状态
+     * @param type  0:all 1:agree  2:notAgree
+     * @return
+     */
+    public ResultBase<?> queryLeaveTaskList(String type, Long studentId) {
+        LeaveTaskExample example = new LeaveTaskExample();
+        LeaveTaskExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(studentId);
+        if ("1".equals(type)) {
+            criteria.andIsAgreeEqualTo(1);
+        }
+        if ("2".equals(type)) {
+            criteria.andIsAgreeEqualTo(0);
+        }
+        List<LeaveTask> list = leaveTaskMapper.selectByExample(example);
+        return ResultBase.Builder.success(list);
+    }
+    
 }

@@ -375,6 +375,126 @@ public class LeaveTaskExample {
             return (Criteria) this;
         }
 
+        public Criteria andStartDateIsNull() {
+            addCriterion("start_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateIsNotNull() {
+            addCriterion("start_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateEqualTo(Date value) {
+            addCriterion("start_date =", value, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateNotEqualTo(Date value) {
+            addCriterion("start_date <>", value, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateGreaterThan(Date value) {
+            addCriterion("start_date >", value, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("start_date >=", value, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateLessThan(Date value) {
+            addCriterion("start_date <", value, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateLessThanOrEqualTo(Date value) {
+            addCriterion("start_date <=", value, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateIn(List<Date> values) {
+            addCriterion("start_date in", values, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateNotIn(List<Date> values) {
+            addCriterion("start_date not in", values, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateBetween(Date value1, Date value2) {
+            addCriterion("start_date between", value1, value2, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartDateNotBetween(Date value1, Date value2) {
+            addCriterion("start_date not between", value1, value2, "startDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateIsNull() {
+            addCriterion("end_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateIsNotNull() {
+            addCriterion("end_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateEqualTo(Date value) {
+            addCriterion("end_date =", value, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateNotEqualTo(Date value) {
+            addCriterion("end_date <>", value, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateGreaterThan(Date value) {
+            addCriterion("end_date >", value, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("end_date >=", value, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateLessThan(Date value) {
+            addCriterion("end_date <", value, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateLessThanOrEqualTo(Date value) {
+            addCriterion("end_date <=", value, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateIn(List<Date> values) {
+            addCriterion("end_date in", values, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateNotIn(List<Date> values) {
+            addCriterion("end_date not in", values, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateBetween(Date value1, Date value2) {
+            addCriterion("end_date between", value1, value2, "endDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndDateNotBetween(Date value1, Date value2) {
+            addCriterion("end_date not between", value1, value2, "endDate");
+            return (Criteria) this;
+        }
+
         public Criteria andIsAgreeIsNull() {
             addCriterion("is_agree is null");
             return (Criteria) this;
@@ -385,52 +505,52 @@ public class LeaveTaskExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeEqualTo(Boolean value) {
+        public Criteria andIsAgreeEqualTo(Integer value) {
             addCriterion("is_agree =", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeNotEqualTo(Boolean value) {
+        public Criteria andIsAgreeNotEqualTo(Integer value) {
             addCriterion("is_agree <>", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeGreaterThan(Boolean value) {
+        public Criteria andIsAgreeGreaterThan(Integer value) {
             addCriterion("is_agree >", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeGreaterThanOrEqualTo(Boolean value) {
+        public Criteria andIsAgreeGreaterThanOrEqualTo(Integer value) {
             addCriterion("is_agree >=", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeLessThan(Boolean value) {
+        public Criteria andIsAgreeLessThan(Integer value) {
             addCriterion("is_agree <", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeLessThanOrEqualTo(Boolean value) {
+        public Criteria andIsAgreeLessThanOrEqualTo(Integer value) {
             addCriterion("is_agree <=", value, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeIn(List<Boolean> values) {
+        public Criteria andIsAgreeIn(List<Integer> values) {
             addCriterion("is_agree in", values, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeNotIn(List<Boolean> values) {
+        public Criteria andIsAgreeNotIn(List<Integer> values) {
             addCriterion("is_agree not in", values, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeBetween(Boolean value1, Boolean value2) {
+        public Criteria andIsAgreeBetween(Integer value1, Integer value2) {
             addCriterion("is_agree between", value1, value2, "isAgree");
             return (Criteria) this;
         }
 
-        public Criteria andIsAgreeNotBetween(Boolean value1, Boolean value2) {
+        public Criteria andIsAgreeNotBetween(Integer value1, Integer value2) {
             addCriterion("is_agree not between", value1, value2, "isAgree");
             return (Criteria) this;
         }

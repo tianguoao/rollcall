@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
+import com.tga.rollcall.dto.LeaveTaskParam;
 import com.tga.rollcall.dto.SignInTaskParam;
 import com.tga.rollcall.dto.TaskSignInParam;
 import com.tga.rollcall.dto.User;
@@ -83,6 +85,35 @@ public class StudentController extends Base{
         User user = getUserInfo(request);
         return studentService.signInTaskRecord(Long.valueOf("" + user.getGroupId()),
                 user.getUserId());
+    }
+
+    /**
+     * 学生请假
+     * 
+     * @param param
+     * @param request
+     * @return
+     */
+    @PrintParams
+    @RequestMapping(value = "/addLeaveTask", method = RequestMethod.POST)
+    public Object addLeaveTask(@RequestBody LeaveTaskParam param, HttpServletRequest request) {
+        User user = getUserInfo(request);
+        return studentService.addLeaveTask(param);
+    }
+
+    /**
+     * 查询学生请假任务列表
+     * 
+     * @param type
+     * @param request
+     * @return
+     */
+    @PrintParams
+    @RequestMapping(value = "/queryLeaveTaskList", method = RequestMethod.GET)
+    public Object queryLeaveTaskList(@RequestParam(name = "type", defaultValue = "0") String type,
+            HttpServletRequest request) {
+        User user = getUserInfo(request);
+        return studentService.queryLeaveTaskList(type, user.getUserId());
     }
     
 }

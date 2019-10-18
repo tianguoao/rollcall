@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
+import com.tga.rollcall.dto.ReviewLeaveTaskParam;
 import com.tga.rollcall.dto.SignInTaskParam;
 import com.tga.rollcall.dto.User;
 import com.tga.rollcall.service.TeacherService;
@@ -57,4 +59,20 @@ public class TeacherController extends Base {
         User user = getUserInfo(request);
         return teacherService.openStudentAccount(user.getUserId());
     }
+    
+    /**
+     * 审核学生请假
+     * 
+     * @param param
+     * @param request
+     * @return
+     */
+    @PrintParams
+    @RequestMapping(value = "/reviewLeaveTask", method = RequestMethod.POST)
+    public Object reviewLeaveTask(@RequestBody ReviewLeaveTaskParam param,
+            HttpServletRequest request) {
+        User user = getUserInfo(request);
+        return teacherService.reviewLeaveTask(param);
+    }
+    
 }

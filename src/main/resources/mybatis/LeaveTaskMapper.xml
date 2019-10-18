@@ -6,6 +6,8 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="teacher_id" jdbcType="BIGINT" property="teacherId" />
     <result column="reasons_for_leave" jdbcType="VARCHAR" property="reasonsForLeave" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
     <result column="is_agree" jdbcType="BIT" property="isAgree" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
@@ -69,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, teacher_id, reasons_for_leave, is_agree, create_date, update_date
+    id, user_id, teacher_id, reasons_for_leave, start_date, end_date, is_agree, create_date, 
+    update_date
   </sql>
   <select id="selectByExample" parameterType="com.tga.rollcall.entity.LeaveTaskExample" resultMap="BaseResultMap">
     select
@@ -111,11 +114,13 @@
   </delete>
   <insert id="insert" parameterType="com.tga.rollcall.entity.LeaveTask">
     insert into leave_task (id, user_id, teacher_id, 
-      reasons_for_leave, is_agree, create_date, 
-      update_date)
+      reasons_for_leave, start_date, end_date, 
+      is_agree, create_date, update_date
+      )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{teacherId,jdbcType=BIGINT}, 
-      #{reasonsForLeave,jdbcType=VARCHAR}, #{isAgree,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{updateDate,jdbcType=TIMESTAMP})
+      #{reasonsForLeave,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{isAgree,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.tga.rollcall.entity.LeaveTask">
     insert into leave_task
@@ -131,6 +136,12 @@
       </if>
       <if test="reasonsForLeave != null">
         reasons_for_leave,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
       </if>
       <if test="isAgree != null">
         is_agree,
@@ -154,6 +165,12 @@
       </if>
       <if test="reasonsForLeave != null">
         #{reasonsForLeave,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
       </if>
       <if test="isAgree != null">
         #{isAgree,jdbcType=BIT},
@@ -187,6 +204,12 @@
       <if test="record.reasonsForLeave != null">
         reasons_for_leave = #{record.reasonsForLeave,jdbcType=VARCHAR},
       </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.isAgree != null">
         is_agree = #{record.isAgree,jdbcType=BIT},
       </if>
@@ -207,6 +230,8 @@
       user_id = #{record.userId,jdbcType=BIGINT},
       teacher_id = #{record.teacherId,jdbcType=BIGINT},
       reasons_for_leave = #{record.reasonsForLeave,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      end_date = #{record.endDate,jdbcType=TIMESTAMP},
       is_agree = #{record.isAgree,jdbcType=BIT},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP}
@@ -226,6 +251,12 @@
       <if test="reasonsForLeave != null">
         reasons_for_leave = #{reasonsForLeave,jdbcType=VARCHAR},
       </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="isAgree != null">
         is_agree = #{isAgree,jdbcType=BIT},
       </if>
@@ -243,6 +274,8 @@
     set user_id = #{userId,jdbcType=BIGINT},
       teacher_id = #{teacherId,jdbcType=BIGINT},
       reasons_for_leave = #{reasonsForLeave,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
       is_agree = #{isAgree,jdbcType=BIT},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP}
