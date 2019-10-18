@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
@@ -42,12 +41,18 @@ public class TeacherController extends Base {
         return teacherService.getStudentRegisterList(Long.valueOf("" + user.getGroupId()));
     }
     
+    /**
+     * 开启学生注册的账号
+     * @param request
+     * @return
+     */
     @PrintParams
-    @RequestMapping(value = "/getStudentRegisterList", method = RequestMethod.POST)
+    @RequestMapping(value = "/openStudentAccount", method = RequestMethod.POST)
     public Object openStudentAccount(HttpServletRequest request) {
         User user = getUserInfo(request);
         return teacherService.openStudentAccount(user.getUserId());
     }
+    
     /**
      * 发布打卡任务
      * @param request

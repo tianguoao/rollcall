@@ -3,6 +3,8 @@
 
 <configuration scan="true" scanPeriod="10 seconds">
     <contextName>rollcall-log</contextName>
+    <!--只保留最近90天的日志-->
+    <property name="maxdays" value="90" />
     <property name="USER_HOME" value="/data0/logs/rollcall"/>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

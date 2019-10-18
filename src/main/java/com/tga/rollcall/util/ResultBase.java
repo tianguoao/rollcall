@@ -157,6 +157,13 @@ public class ResultBase<T> implements Serializable {
             return resultBase;
         }
         
+        public static <T> ResultBase<T> error(T data) {
+            ResultBase<T> resultBase = new ResultBase<T>();
+            resultBase.init(RollcallServerEnum.ERROR);
+            resultBase.setData(data);
+            return resultBase;
+        }
+        
         public static <T> ResultBase<T> error(RollcallServerEnum rollcallServerEnum) {
             ResultBase<T> resultBase = new ResultBase<T>();
             resultBase.init(rollcallServerEnum);
