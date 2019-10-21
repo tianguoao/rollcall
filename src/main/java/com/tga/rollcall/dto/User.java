@@ -21,6 +21,7 @@ public class User {
     private String pwd;
     private String email;
     private String mobile;
+    private Integer age;
     /**
      * 用户类型 0：管理员 ，1：老师，2：学生
      */

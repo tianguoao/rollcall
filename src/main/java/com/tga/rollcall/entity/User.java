@@ -1,7 +1,6 @@
 package com.tga.rollcall.entity;
 
 import java.io.Serializable;
-
 /**
  * user
  * @author 

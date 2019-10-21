@@ -1,5 +1,6 @@
 package com.tga.rollcall.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +14,11 @@ import com.tga.rollcall.dto.LeaveTaskParam;
 import com.tga.rollcall.dto.SignInTaskParam;
 import com.tga.rollcall.dto.TaskSignInParam;
 import com.tga.rollcall.dto.User;
+import com.tga.rollcall.entity.SignInTask;
 import com.tga.rollcall.service.StudentService;
+import com.tga.rollcall.util.ResultBase;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -26,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(RollCallApi.SERVER_NAME)
 @Slf4j
+@Api(value="/rollCall",description="请假点名系统")
 public class StudentController extends Base{
     @Autowired
     StudentService studentService;
@@ -35,9 +41,10 @@ public class StudentController extends Base{
      * @param request
      * @return
      */
+    @ApiOperation(value="/queryStudentList",notes="查询某个老师名下的学生列表",response=ResultBase.class)
     @PrintParams
     @RequestMapping(value = RollCallApi.QUERY_STUDENT_LIST, method = RequestMethod.POST)
-    public Object queryStudentList(HttpServletRequest request) {
+    public ResultBase<List<com.tga.rollcall.entity.User>> queryStudentList(HttpServletRequest request) {
         User user = getUserInfo(request);
         log.info("queryStudentList  param:{}",user.toString());
         return studentService.queryStudentList(Long.valueOf(user.getGroupId() + ""));
@@ -52,7 +59,7 @@ public class StudentController extends Base{
      */
     @PrintParams
     @RequestMapping(value = "/querySignInTaskList", method = RequestMethod.POST)
-    public Object querySignInTaskList(@RequestBody SignInTaskParam param,
+    public ResultBase<List<SignInTask>> querySignInTaskList(@RequestBody SignInTaskParam param,
             HttpServletRequest request) {
         User user = getUserInfo(request);
         log.info("queryStudentList  param:{}", user.toString());

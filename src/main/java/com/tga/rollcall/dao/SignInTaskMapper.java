@@ -22,4 +22,14 @@ public interface SignInTaskMapper extends MyBatisBaseDao<SignInTask, Long, SignI
             "    teacher_name, address, latitude, longitude from sign_in_task where start_date>=now() order by start_date  asc")
     @ResultMap("BaseResultMap")
     List<SignInTask> querySignInTask(@Param("groupId") Long groupId);
+    
+    /**
+     * 查询最近的签到任务
+     * @param studentId
+     * @return
+     */
+    @Select("select  id, task_name, start_date, end_date, create_task_teacher_id, create_date, group_id, " + 
+            "    teacher_name, address, latitude, longitude from sign_in_task where start_date>=now() and group_id=#{groupId} order by start_date  asc limit 1")
+    @ResultMap("BaseResultMap")
+    SignInTask queryNowSignInTask(@Param("groupId") Long groupId);
 }

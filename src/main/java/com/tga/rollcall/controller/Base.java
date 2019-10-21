@@ -22,6 +22,7 @@ public class Base {
         user.setUserId(Long.valueOf("" + request.getAttribute("userId")));
         user.setUserName(request.getAttribute("userName") + "");
         user.setUserType(Integer.valueOf(request.getAttribute("userType") + ""));
+        user.setGroupId(Integer.valueOf(request.getAttribute("groupId") + ""));
         return user;
     }
 }

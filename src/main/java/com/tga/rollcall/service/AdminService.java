@@ -4,9 +4,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tga.rollcall.dao.GroupMapper;
+import com.tga.rollcall.dao.StudentGroupMapper;
 import com.tga.rollcall.dao.UserMapper;
 import com.tga.rollcall.entity.Group;
 import com.tga.rollcall.entity.GroupExample;
+import com.tga.rollcall.entity.StudentGroup;
+import com.tga.rollcall.entity.StudentGroupExample;
 import com.tga.rollcall.util.ResultBase;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +26,7 @@ public class AdminService {
     @Autowired
     UserMapper userMapper;
     @Autowired
-    GroupMapper groupMapper;
+    StudentGroupMapper groupMapper;
     
     /**
      * 开启某个用户账号
@@ -41,10 +44,10 @@ public class AdminService {
      * 获取分组列表
      * @return
      */
-    public ResultBase<List<Group>> getGroupList() {
-        GroupExample example = new GroupExample();
-        GroupExample.Criteria criteria = example.createCriteria();
-        List<Group> list = groupMapper.selectByExample(example);
+    public ResultBase<List<StudentGroup>> getGroupList() {
+        StudentGroupExample example = new StudentGroupExample();
+        StudentGroupExample.Criteria criteria = example.createCriteria();
+        List< StudentGroup> list = groupMapper.selectByExample(example);
         return ResultBase.Builder.success(list);
     }
     
@@ -55,7 +58,7 @@ public class AdminService {
      * @return
      */
     public ResultBase<?> addGroup(String groupName, Long teacherId) {
-        Group record = new Group();
+        StudentGroup record = new  StudentGroup();
         record.setGroupName(groupName);
         record.setLeaderId(teacherId);
         if (groupMapper.insertSelective(record) > 0) {

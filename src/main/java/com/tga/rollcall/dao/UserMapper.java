@@ -69,6 +69,6 @@ public interface UserMapper extends MyBatisBaseDao<User, Long, UserExample> {
      * @param userStatus
      * @return
      */
-    @Update("update user set userStatus=#{userStatus}  where id=#{id}")
+    @Update("update user set user_status=#{userStatus}  where id=#{id}")
     int updateUserStatus(@Param("id") Long id,@Param("userStatus") Integer userStatus);
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tga.rollcall.annotations.PrintParams;
 import com.tga.rollcall.common.RollCallApi;
 import com.tga.rollcall.dto.User;
+import com.tga.rollcall.entity.StudentGroup;
+import com.tga.rollcall.enums.UserTypeEnum;
 import com.tga.rollcall.service.AdminService;
 import com.tga.rollcall.service.UserService;
 import com.tga.rollcall.util.ResultBase;
@@ -70,6 +72,7 @@ public class BaseController  extends Base {
      */
     @RequestMapping(value = "/getGroup", method = RequestMethod.GET)
     public ResultBase<?> getGroup(HttpServletRequest request) {
+        User user = getUserInfo(request);
         return adminService.getGroupList();
     }
 
@@ -80,8 +83,8 @@ public class BaseController  extends Base {
      * @return
      */
     @RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-    public ResultBase<?> addGroup(HttpServletRequest request) {
-        return adminService.addGroup(null, null);
+    public ResultBase<?> addGroup(@RequestBody StudentGroup param,HttpServletRequest request) {
+        return adminService.addGroup(param.getGroupName(), param.getLeaderId());
     }
     
     /**
@@ -91,8 +94,7 @@ public class BaseController  extends Base {
      */
     @PrintParams
     @RequestMapping(value = "/openUserAccount", method = RequestMethod.POST)
-    public Object openStudentAccount(HttpServletRequest request) {
-        User user = getUserInfo(request);
-        return adminService.openUserAccount(user.getUserId());
+    public Object openStudentAccount(@RequestBody User param,HttpServletRequest request) {
+        return adminService.openUserAccount(param.getUserId());
     }
 }

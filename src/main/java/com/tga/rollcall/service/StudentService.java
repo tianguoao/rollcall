@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.alibaba.fastjson.JSONObject;
 import com.tga.rollcall.dao.GroupMapper;
 import com.tga.rollcall.dao.LeaveTaskMapper;
 import com.tga.rollcall.dao.SignInRecordMapper;
@@ -22,7 +23,9 @@ import com.tga.rollcall.entity.StudentExample;
 import com.tga.rollcall.entity.User;
 import com.tga.rollcall.entity.UserExample;
 import com.tga.rollcall.enums.UserTypeEnum;
+import com.tga.rollcall.util.LocationUtils;
 import com.tga.rollcall.util.ResultBase;
+import com.tga.rollcall.util.LocationUtils.Position;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -80,6 +83,7 @@ public class StudentService {
      */
     public ResultBase<List<SignInTask>> querySignInTaskList(Long groupId) {
         List<SignInTask> list = signInTaskMapper.querySignInTask(groupId);
+        log.info("data :{}",JSONObject.toJSON(list));
         return ResultBase.Builder.success(list);
     }
     
@@ -89,18 +93,29 @@ public class StudentService {
      * @return
      */
     public ResultBase<?> taskSignIn(TaskSignInParam param) {
-        // 判断当前学生分组下当前时间是否在签到任务内 找出任务id
+        SignInTask task=signInTaskMapper.queryNowSignInTask(param.getGroupId());
+        if(null==task) {
+            return ResultBase.Builder.initError("你目前没有要签到的任务");
+        }
+        if(signInRecordMapper.countByStudent( param.getStudentId(), task.getId())>0) {
+            return ResultBase.Builder.success("你已经签到过任务： "+task.getTaskName());
+        }
+     // 判断学生当前打卡位置数据是否在指定区域内
+        // 位置相差50米以上则定位失败 不能进任务签到
+        boolean success =
+                LocationUtils.getDistance(new Position(param.getLatitude(), param.getLongitude()),
+                        new Position(task.getLatitude(), task.getLongitude())) > 50;
+        if (!success) {
+            return ResultBase.Builder.error("请到达任务指定位置进行打卡 ");
+        }
         // 判断学生注册人脸数据 和 签到人脸数据是否一致
         // 人像对比接口（阿里云）
-        // 判断学生当前打卡位置数据是否在指定区域内
-        // 经纬度区域判断代码
         // 增加签到任务记录
         SignInRecord record = new SignInRecord();
         record.setCreateDate(new Date());
         record.setStudentId(param.getStudentId());
-        record.setSignInTaskId(123L);
+        record.setSignInTaskId(task.getId());
         signInRecordMapper.insertSelective(record);
-        
         return ResultBase.Builder.success();
     }
     

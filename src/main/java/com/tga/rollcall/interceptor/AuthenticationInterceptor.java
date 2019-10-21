@@ -14,6 +14,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.tga.rollcall.annotations.NotLogin;
 import com.tga.rollcall.entity.User;
+import com.tga.rollcall.enums.UserTypeEnum;
 import com.tga.rollcall.service.UserService;
 
 /**
@@ -59,9 +60,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor{
             // 验证 token
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPwd())).build();
             jwtVerifier.verify(token);
+            if (UserTypeEnum.STUDENT.getCode().equals(user.getUserType())
+                    && "0".equals(user.getUserStatus())) {
+                throw new RuntimeException("用户账号还未激活！请联系老师激活账号！");
+            }
             httpServletRequest.setAttribute("userId", user.getId());
             httpServletRequest.setAttribute("userName", user.getUserName());
             httpServletRequest.setAttribute("userType", user.getUserType());
+            httpServletRequest.setAttribute("groupId", user.getGroupId());
             return true;
         } catch (JWTDecodeException j) {
             throw new RuntimeException("401");

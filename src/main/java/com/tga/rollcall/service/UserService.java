@@ -72,18 +72,22 @@ public class UserService {
         record.setPwd(encryptStr);
         record.setMobile(user.getMobile());
         record.setUser(user.getUser());
+        record.setAge(user.getAge());
         if (StringUtils.isEmpty(user.getUserName())) {
             record.setUserName(UUID.randomUUID().toString().replaceAll("-", ""));
         } else {
             record.setUserName(user.getUserName());
         }
-        if (StringUtils.isEmpty(user.getEmail())) {
-
-        } else {
-
-        }
-        
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            record.setEmail(user.getEmail());
+        }  
+        record.setGroupId(Long.valueOf(""+user.getGroupId()));
+        //用户为学生角色则特殊处理
         if (UserTypeEnum.STUDENT.getCode().equals(user.getUserType())) {
+            if(StringUtils.isEmpty(user.getFaceData())) {
+                return ResultBase.Builder.initError("学生人像信息必传");
+            }
+            record.setFaceData(user.getFaceData());
             // 设置当前学生分组的老师id
             record.setGroupId(Long.valueOf(user.getGroupId() + ""));
             record.setFaceData(user.getFaceData());

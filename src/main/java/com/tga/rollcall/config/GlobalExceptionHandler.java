@@ -1,6 +1,5 @@
 package com.tga.rollcall.config;
 
-import javax.jws.WebResult;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
