@@ -100,7 +100,7 @@ public class StudentService {
         if(signInRecordMapper.countByStudent( param.getStudentId(), task.getId())>0) {
             return ResultBase.Builder.success("你已经签到过任务： "+task.getTaskName());
         }
-     // 判断学生当前打卡位置数据是否在指定区域内
+        // 判断学生当前打卡位置数据是否在指定区域内
         // 位置相差50米以上则定位失败 不能进任务签到
         boolean success =
                 LocationUtils.getDistance(new Position(param.getLatitude(), param.getLongitude()),

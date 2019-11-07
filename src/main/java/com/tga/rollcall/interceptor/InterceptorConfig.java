@@ -37,6 +37,6 @@ public class InterceptorConfig implements WebMvcConfigurer  {
         // excludePathPatterns("/login", "/register") 表示除了登陆与注册之外，因为登陆注册不需要登陆也可以访问
         registry.addInterceptor(authenticationInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/rollCall/login", "/rollCall/register",
-                        "/rollCall/serverState");
+                        "/rollCall/serverState","/rollCall/test/*","/rollCall/common/*");
     }
 }
