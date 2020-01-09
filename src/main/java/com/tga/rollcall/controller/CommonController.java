@@ -43,8 +43,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(RollCallApi.SERVER_NAME+"/common")
 @Slf4j
 public class CommonController {
-    private static ExecutorService executor =
-            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+//    private static ExecutorService executor =
+//            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
     @Autowired
     CommonService commonService;
     @Autowired
