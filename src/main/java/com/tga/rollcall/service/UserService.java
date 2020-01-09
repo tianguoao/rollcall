@@ -2,12 +2,14 @@ package com.tga.rollcall.service;
 
 import java.security.Key;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.UUID;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -54,7 +56,9 @@ public class UserService {
     
     private String getToken(com.tga.rollcall.entity.User user) {
         String token="";
-        token= JWT.create().withAudience(user.getId()+"")
+        Date now = new Date();
+        Date expiresDate=DateUtils.addHours(now, 2);
+        token= JWT.create().withAudience(user.getId()+"").withNotBefore(now).withExpiresAt(expiresDate)
                 .sign(Algorithm.HMAC256(user.getPwd()));
         return token;
     }
