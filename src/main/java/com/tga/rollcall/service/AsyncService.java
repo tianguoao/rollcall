@@ -52,9 +52,9 @@ public class AsyncService {
                 JSONObject mblog =
                         JSONObject.parseObject(array.get(1).toString()).getJSONObject("mblog");
                 String date = mblog.getString("created_at");
-                 if(!"刚刚".equals(date)||"1分钟前".equals(date)) {
-                 continue;
-                 }
+                if (!"刚刚".equals(date) || "1分钟前".equals(date)) {
+                    continue;
+                }
                 String coreText = null;
                 String rawText = mblog.getString("raw_text");
                 if (!StringUtils.isEmpty(rawText)) {
@@ -68,7 +68,7 @@ public class AsyncService {
                 sendAll(date, coreText, img, url);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("sina job  error:{}",e);
         }
     }
     
@@ -93,14 +93,14 @@ public class AsyncService {
                 sb.append("![image](%s) \n");
             }
             String param = sb.toString();
-            param = String.format(param, delHTMLTag(text), date, img, img);
+            param = String.format(param, delHTMLTag(text), date, img);
             Map<String, String> data = Maps.newHashMap();
             data.put("text", "薅羊毛的大队长-最新微博");
             data.put("desp", param);
             String result = HttpClientUtil.postForm(url, data);
             log.info("已发送通知消息！！！ send msg result:{}", result);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("sendMsg error:{}",e);
         }
     }
 
@@ -118,10 +118,9 @@ public class AsyncService {
                     "------------------------------ \n" + 
                     "\n" + 
                     "![image](%s) \n" + 
-                    "图片链接：%s \n" + 
-                    "");
+                    "图片链接： \n %s ");
             String param = sb.toString();
-            param = String.format(param, delHTMLTag(text),curl, date, img);
+            param = String.format(param, delHTMLTag(text),curl, date, img, img);
             Map<String, String> data2 = Maps.newHashMap();
             data2.put("key", "f2e8f1990c50438e897010b32474ecc4");
             data2.put("head", "薅羊毛的大队长-最新微博");
@@ -129,7 +128,7 @@ public class AsyncService {
             String result = HttpClientUtil.postForm(url, data2);
             log.info("已发送通知消息！！！ send msg result:{}", result);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("sendAll error:{}",e);
         }
     }
     
