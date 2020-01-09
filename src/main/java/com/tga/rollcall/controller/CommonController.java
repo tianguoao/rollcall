@@ -146,6 +146,7 @@ public class CommonController {
                     "------------------------------ \n" + 
                     "\n" + 
                     "![image](%s) \n" + 
+                    "图片链接：%s \n" + 
                     "");
             String param = sb.toString();
             param = String.format(param, delHTMLTag(text),curl, date, img);
