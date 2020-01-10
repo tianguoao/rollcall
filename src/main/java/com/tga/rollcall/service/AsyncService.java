@@ -53,9 +53,9 @@ public class AsyncService {
                 JSONObject mblog =
                         JSONObject.parseObject(array.get(1).toString()).getJSONObject("mblog");
                 String date = mblog.getString("created_at");
-                if (!"刚刚".equals(date) || "1分钟前".equals(date)) {
-                    continue;
-                }
+//                if (!"刚刚".equals(date) || "1分钟前".equals(date)) {
+//                    continue;
+//                }
                 String coreText = null;
                 String rawText = mblog.getString("raw_text");
                 if (!StringUtils.isEmpty(rawText)) {
@@ -129,7 +129,8 @@ public class AsyncService {
             data2.put("body", param);
             String result = HttpClientUtil.postForm(url, data2);
             log.info("已发送通知消息！！！ send msg result:{}", result);
-        } catch (IOException e) {
+            Thread.sleep(1500L);
+        } catch (Exception e) {
             log.error("sendAll error:{}",e);
         }
     }
