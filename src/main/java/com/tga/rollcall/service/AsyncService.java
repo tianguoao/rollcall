@@ -53,9 +53,9 @@ public class AsyncService {
                 JSONObject mblog =
                         JSONObject.parseObject(array.get(1).toString()).getJSONObject("mblog");
                 String date = mblog.getString("created_at");
-//                if (!"刚刚".equals(date) || "1分钟前".equals(date)) {
-//                    continue;
-//                }
+                if (!"刚刚".equals(date) || "1分钟前".equals(date)) {
+                    continue;
+                }
                 String coreText = null;
                 String rawText = mblog.getString("raw_text");
                 if (!StringUtils.isEmpty(rawText)) {
@@ -120,7 +120,10 @@ public class AsyncService {
                     "------------------------------ \n" + 
                     "\n" + 
                     "![image](%s) \n" + 
-                    "图片链接： \n %s ");
+                    "图片链接： \n %s \n");
+            sb.append("博主微博地址： \n");
+            sb.append(
+                    "https://m.weibo.cn/u/5069029750?topnav=1&topnav=1&wvr=6&wvr=6&topsug=1&topsug=1&is_all=1&is_all=1&jumpfrom=weibocom\n");
             String param = sb.toString();
             param = String.format(param, delHTMLTag(text),curl, date, img, img);
             Map<String, String> data2 = Maps.newHashMap();
