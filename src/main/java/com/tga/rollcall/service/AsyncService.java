@@ -70,6 +70,7 @@ public class AsyncService {
             }
         } catch (Exception e) {
             log.error("sina job  error:{}",e);
+            run(null);
         }
     }
     
@@ -130,7 +131,6 @@ public class AsyncService {
             log.info("已发送通知消息！！！ send msg result:{}", result);
         } catch (IOException e) {
             log.error("sendAll error:{}",e);
-            run(null);
         }
     }
     
