@@ -25,13 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class AsyncService {
-    private static Integer stop=1; 
+    private static Integer open = 1;
+
     @Async
     public void run(Integer stop) {
         try {
             for (;;) {
-                if (null != stop && 1 == stop) {
-                    stop = 1;
+                if (null != stop && 0 == stop) {
+                    open = 0;
                     log.warn("结束微博检索脚本！");
                     break;
                 }
@@ -129,6 +130,7 @@ public class AsyncService {
             log.info("已发送通知消息！！！ send msg result:{}", result);
         } catch (IOException e) {
             log.error("sendAll error:{}",e);
+            run(null);
         }
     }
     

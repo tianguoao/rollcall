@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,10 +56,11 @@ public class CommonController {
         return commonService.queryBaseAddress(param);
     }
     
-    @PostMapping("/sina")
-    public ResultBase<?> sina(@RequestParam(value="stop",defaultValue="")Integer stop) {
-//        executor.execute(new RegisterExtroOptionRunnable(appHeader, acct, request, clUserService, appTair, accessKey,
-//                iUserDeviceService, LOG, reqDTO, this));
+    @GetMapping("/sina")
+    public ResultBase<?> sina(@RequestParam(value = "stop", defaultValue = "") Integer stop) {
+        // executor.execute(new RegisterExtroOptionRunnable(appHeader, acct, request, clUserService,
+        // appTair, accessKey,
+        // iUserDeviceService, LOG, reqDTO, this));
         asyncService.run(stop);
         return ResultBase.Builder.success();
     }
