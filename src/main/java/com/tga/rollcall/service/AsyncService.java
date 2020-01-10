@@ -1,9 +1,14 @@
 package com.tga.rollcall.service;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.imageio.ImageIO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -31,7 +36,10 @@ public class AsyncService {
     public void run(Integer stop) {
         try {
             for (;;) {
-                if (null != stop && 0 == stop) {
+                if (null != stop) {
+                    open = stop;
+                }
+                if (0 == open) {
                     open = 0;
                     log.warn("结束微博检索脚本！");
                     break;
@@ -113,19 +121,20 @@ public class AsyncService {
             String url = "http://push.ijingniu.cn/send";
             sb.append("微博内容:\n" + 
                     "------------------------------ \n" + 
-                    "%s \n" + 
-                    "网页链接:[%s ]\n" + 
+                    delHTMLTag(text)+" \n" + 
+                    "网页链接:["+curl+" ]\n" + 
                     "------------------------------  \n" + 
-                    "时间：%s    \n" + 
-                    "------------------------------ \n" + 
-                    "\n" + 
-                    "![image](%s) \n" + 
-                    "图片链接： \n %s \n");
+                    "时间："+date+"    \n" + 
+                    "------------------------------ \n"
+                   );
             sb.append("博主微博地址： \n");
             sb.append(
                     "https://m.weibo.cn/u/5069029750?topnav=1&topnav=1&wvr=6&wvr=6&topsug=1&topsug=1&is_all=1&is_all=1&jumpfrom=weibocom\n");
+            if (!StringUtils.isEmpty(img)) {
+                sb.append("![avatar][base64str] \n" + "图片链接： \n " + img + " \n");
+                sb.append("[base64str]:" + getImageBase64FromUrl(img));
+            }
             String param = sb.toString();
-            param = String.format(param, delHTMLTag(text),curl, date, img, img);
             Map<String, String> data2 = Maps.newHashMap();
             data2.put("key", "f2e8f1990c50438e897010b32474ecc4");
             data2.put("head", "薅羊毛的大队长-最新微博");
@@ -165,4 +174,22 @@ public class AsyncService {
         htmlStr=m_html.replaceAll(""); //过滤html标签 
         return htmlStr.trim(); //返回文本字符串 
     } 
+    
+    public String getImageBase64FromUrl(String imgURL) {
+        BufferedImage image = null;
+        URL url;
+        try {
+            url = new URL(imgURL);
+            image = ImageIO.read(url);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpg", outputStream);
+            Base64.Encoder encoder1 = Base64.getEncoder();
+            String imgStr = encoder1.encodeToString(outputStream.toByteArray());
+            System.out.println("data:image/jpeg;base64," + imgStr);
+            return "data:image/jpeg;base64," + imgStr;
+        } catch (Exception e) {
+            log.error("base64   Encoder  error:{}", e);
+        }
+        return null;
+    }
 }
