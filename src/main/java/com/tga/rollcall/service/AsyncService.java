@@ -136,9 +136,16 @@ public class AsyncService {
     
     private String getUrl(String html) {
         Document document = Jsoup.parse(html);
+        if (null == document) {
+            return null;
+        }
         Element link = document.select("a").first();
-        return link.attr("data-url");
+        if (null != link) {
+            return link.attr("data-url");
+        }
+        return null;
     }
+    
     public static String delHTMLTag(String htmlStr){ 
         String regEx_script="<script[^>]*?>[\\s\\S]*?<\\/script>"; //定义script的正则表达式 
         String regEx_style="<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式 
