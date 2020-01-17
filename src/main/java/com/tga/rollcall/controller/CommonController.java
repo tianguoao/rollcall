@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.tga.rollcall.common.RollCallApi;
 import com.tga.rollcall.dto.AddressParam;
 import com.tga.rollcall.service.AsyncService;
+import com.tga.rollcall.service.AsyncWDService;
 import com.tga.rollcall.service.AsyncXPPService;
 import com.tga.rollcall.service.CommonService;
 import com.tga.rollcall.util.HttpClientUtil;
@@ -53,6 +54,8 @@ public class CommonController {
     AsyncService asyncService;
     @Autowired
     AsyncXPPService asyncXPPService;
+    @Autowired
+    AsyncWDService asyncWDService;
     
     @PostMapping("/queryBaseAddress")
     public ResultBase<?> queryBaseAddress(@RequestBody(required = true) AddressParam param) {
@@ -66,6 +69,7 @@ public class CommonController {
         // iUserDeviceService, LOG, reqDTO, this));
         asyncService.run(stop);
         asyncXPPService.run(stop);
+        asyncWDService.run(stop);
         return ResultBase.Builder.success();
     }
  
